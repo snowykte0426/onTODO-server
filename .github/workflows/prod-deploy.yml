@@ -55,7 +55,7 @@ jobs:
       - name: 📥 Load Outputs
         run: echo "TIMESTAMP=${{ needs.set.outputs.TIMESTAMP }}" >> $GITHUB_ENV
       - name: 🏷️ Set Docker Image Name
-        run: echo "IMAGE_NAME=${{ secrets.DOCKER_USERNAME }}/onTODO-server" >> $GITHUB_ENV
+        run: echo "IMAGE_NAME=${{ secrets.DOCKER_USERNAME }}/ontodo-server" >> $GITHUB_ENV
       - name: 📂 Checkout Repository
         uses: actions/checkout@v3
       - name: 📦 Download Artifact
@@ -78,7 +78,7 @@ jobs:
 
     steps:
       - name: 🏷️ Set Docker Image Name
-        run: echo "IMAGE_NAME=${{ secrets.DOCKER_USERNAME }}/onTODO-server" >> $GITHUB_ENV
+        run: echo "IMAGE_NAME=${{ secrets.DOCKER_USERNAME }}/ontodo-server" >> $GITHUB_ENV
       - name: 🎁 Set Docker Container Name
         run: echo "CONTAINER_NAME=groom-server" >> $GITHUB_ENV
       - name: 🔑 Setup SSH
