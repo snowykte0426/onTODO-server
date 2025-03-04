@@ -34,12 +34,11 @@ class ArticleService(private val articleJpaRepository: ArticleJpaRepository) {
 
     @Transactional
     fun create(content: String, level: ArticleLevel) {
-        val articleJpaEntity = ArticleJpaEntity()
-        articleJpaRepository.save(ArticleJpaEntity().apply {
+        val articleJpaEntity = ArticleJpaEntity().apply {
             this.date = LocalDate.now()
             this.content = content
             this.level = level
-        })
+        }
         articleJpaRepository.save(articleJpaEntity)
     }
 

@@ -6,20 +6,26 @@ import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
+import org.springframework.data.repository.query.Param
 import org.springframework.stereotype.Repository
 import java.time.LocalDate
 
 @Repository
 interface ArticleJpaRepository : JpaRepository<ArticleJpaEntity, Long> {
 
-    @Query(
-        "SELECT a FROM ArticleJpaEntity a WHERE a.content LIKE %:keyword% AND a.isCompleted = :isCompleted AND a.date = :date AND a.level = :level"
-    )
+    @Query("""
+    SELECT a 
+    FROM ArticleJpaEntity a 
+    WHERE (:keyword IS NULL OR a.content LIKE CONCAT('%', :keyword, '%'))
+      AND (:isCompleted IS NULL OR a.isCompleted = :isCompleted)
+      AND (:date IS NULL OR a.date = :date)
+      AND (:level IS NULL OR a.level = :level)
+""")
     fun searchArticleJpaEntities(
-        keyword: String?,
-        isCompleted: Boolean?,
-        date: LocalDate?,
-        level: ArticleLevel?,
+        @Param("keyword") keyword: String?,
+        @Param("isCompleted") isCompleted: Boolean?,
+        @Param("date") date: LocalDate?,
+        @Param("level") level: ArticleLevel?,
         pageable: Pageable
     ): Page<ArticleJpaEntity>
 }
