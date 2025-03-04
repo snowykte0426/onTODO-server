@@ -19,7 +19,7 @@ class ArticleService(private val articleJpaRepository: ArticleJpaRepository) {
         return ResponseEntity.status(HttpStatus.OK).body(articleJpaRepository.findAll())
     }
 
-    fun findById(articleId: Long):ResponseEntity<ArticleJpaEntity> {
+    fun findById(articleId: Long): ResponseEntity<ArticleJpaEntity> {
         return ResponseEntity.status(HttpStatus.OK).body(articleJpaRepository.findById(articleId).orElseThrow {
             EntityNotFoundException("Article not found")
         })
@@ -34,11 +34,13 @@ class ArticleService(private val articleJpaRepository: ArticleJpaRepository) {
     ): ResponseEntity<GetArticleResponse> {
         val articleJpaEntities =
             articleJpaRepository.searchArticleJpaEntities(keyword, isCompleted, date, level, pageable)
-        return ResponseEntity.status(HttpStatus.OK).body(GetArticleResponse(
-            articleJpaEntities.totalPages,
-            articleJpaEntities.totalElements,
-            articleJpaEntities.content
-        ))
+        return ResponseEntity.status(HttpStatus.OK).body(
+            GetArticleResponse(
+                articleJpaEntities.totalPages,
+                articleJpaEntities.totalElements,
+                articleJpaEntities.content
+            )
+        )
     }
 
     @Transactional
@@ -53,7 +55,9 @@ class ArticleService(private val articleJpaRepository: ArticleJpaRepository) {
 
     @Transactional
     fun update(articleId: Long, content: String?, level: ArticleLevel?, isCompleted: Boolean?) {
-        val articleJpaEntity = articleJpaRepository.findById(articleId).orElseThrow()
+        val articleJpaEntity = articleJpaRepository.findById(articleId).orElseThrow {
+            EntityNotFoundException("Article not found")
+        }
         content?.let { articleJpaEntity.updateContent(it) }
         level?.let { articleJpaEntity.updateLevel(it) }
         isCompleted?.let { articleJpaEntity.updateIsCompleted(it) }
