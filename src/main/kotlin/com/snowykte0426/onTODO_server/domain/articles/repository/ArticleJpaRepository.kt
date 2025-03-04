@@ -13,14 +13,16 @@ import java.time.LocalDate
 @Repository
 interface ArticleJpaRepository : JpaRepository<ArticleJpaEntity, Long> {
 
-    @Query("""
+    @Query(
+        """
     SELECT a 
     FROM ArticleJpaEntity a 
     WHERE (:keyword IS NULL OR a.content LIKE CONCAT('%', :keyword, '%'))
       AND (:isCompleted IS NULL OR a.isCompleted = :isCompleted)
       AND (:date IS NULL OR a.date = :date)
       AND (:level IS NULL OR a.level = :level)
-""")
+"""
+    )
     fun searchArticleJpaEntities(
         @Param("keyword") keyword: String?,
         @Param("isCompleted") isCompleted: Boolean?,
