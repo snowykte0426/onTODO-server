@@ -5,6 +5,7 @@ import com.snowykte0426.onTODO_server.domain.articles.data.constant.dto.request.
 import com.snowykte0426.onTODO_server.domain.articles.data.constant.dto.request.PostArticleRequest
 import com.snowykte0426.onTODO_server.domain.articles.service.ArticleService
 import org.springframework.data.domain.Pageable
+import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import java.time.LocalDate
 
@@ -35,14 +36,17 @@ class ArticleController(private val articleService: ArticleService) {
     )
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     fun createArticle(@RequestBody request: PostArticleRequest) = articleService.create(request.content, request.level)
 
     @PatchMapping("/{articleId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     fun updateArticle(
         @PathVariable articleId: Long,
         @RequestBody request: PatchArticleRequest
     ) = articleService.update(articleId, request.content, request.level, request.isCompleted)
 
     @DeleteMapping("/{articleId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     fun deleteArticle(@PathVariable articleId: Long) = articleService.delete(articleId)
 }
