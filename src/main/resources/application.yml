@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: onTODO-server
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
+  jpa:
+    hibernate:
+      ddl-auto: ${JPA_HIBERNATE_DDL_AUTO:update}
+    show-sql: on
+    properties:
+      hibernate:
+        format_sql: on
